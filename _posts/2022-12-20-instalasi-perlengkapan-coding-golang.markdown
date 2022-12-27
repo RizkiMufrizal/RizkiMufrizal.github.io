@@ -32,7 +32,7 @@ sudo gedit /etc/environment
 Lalu tambahkan parameter berikut, silahkan sesuaikan dengan path folder Go-Lang runtime teman - teman
 
 {% highlight bash %}
-GO_HOME=/home/rizki/Tool/Runtime/go
+GOROOT=/home/rizki/Tool/Runtime/go
 {% endhighlight %}
 
 Selanjutnya silahkan tambahkan pada bagian `PATH` menjadi seperti berikut
