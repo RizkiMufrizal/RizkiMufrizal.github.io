@@ -14,7 +14,7 @@ date: 2023-02-01T21:08:21+07:00
 
 ## Apa Itu CQRS ?
 
->>CQRS adalah kepanjangan dari ommand Query Responsibility Segregation, dimana pattern ini dicetuskan oleh [Greg Young](https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf). CQRS merupakah sebuah pattern yang menjelaskan bagaimana cara memisahkan antara proses menulis (command) dan membaca (query) pada sebuah aplikasi.
+>>CQRS adalah kepanjangan dari Command Query Responsibility Segregation, dimana pattern ini dicetuskan oleh [Greg Young](https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf). CQRS merupakah sebuah pattern yang menjelaskan bagaimana cara memisahkan antara proses menulis (command) dan membaca (query) pada sebuah aplikasi.
 
 Jika kita melihat ke berbagai arsitektur microservice, masing - masing service dapat memiliki database nya tersendiri atau lebih sering disebut dengan [database per service](https://microservices.io/patterns/data/database-per-service.html). Pembagian database per service juga dibagi ke dalam beberapa jenis yaitu
 
