@@ -64,4 +64,4 @@ Apakah CQRS wajib digunakan di semua yang berkaitan dengan query ? jawaban nya a
 
 Jangan pernah menggunakan scheduler untuk melakukan pooling data dari service - service command, karena ini nanti nya akan sangat berat jika data nya dalam jumlah yang banyak, susah di maintenance dan pasti nya tidak akan mendapatkan data yang up to date.
 
-Sekian artikel mengenai Belajar cqrs, di artikel selanjutnya penulis akan membahas bagaimana cara membuat cqris. Jika ada saran dan komentar silahkan isi dibawah dan terima kasih :).
+Sekian artikel mengenai Belajar cqrs, di artikel selanjutnya penulis akan membahas bagaimana cara membuat cqrs. Jika ada saran dan komentar silahkan isi dibawah dan terima kasih :).
