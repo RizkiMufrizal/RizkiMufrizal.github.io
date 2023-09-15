@@ -38,7 +38,7 @@ Berikut merupakan list dari library diatas :
 - errorhandler : digunakan untuk handle error pada node js
 - [express](http://expressjs.com/){:target="_blank"} : merupakan framework node js untuk membangun sebuah aplikasi web
 - express-session : digunakan sebagai session pada express
-- [jade](http://jade-lang.com/){:target="_blank"} : digunakan sebagai template engine pada node js, sebenarnya masih ada banyak template engine lain seperti [EJS](http://www.embeddedjs.com/){:target="_blank"} akan tetapi kita akan menggunakan template jade dikarenakan jade termasuk template yang bagus terutama support terhadap extends template
+- [jade](http://jade-lang.com/){:target="_blank"} : digunakan sebagai template engine pada node js, sebenarnya masih ada banyak template engine lain seperti [EJS](https://ejs.co/){:target="_blank"} akan tetapi kita akan menggunakan template jade dikarenakan jade termasuk template yang bagus terutama support terhadap extends template
 - method-override : biasnya digunakan untuk membangun protokol HTTP method
 - mongoose : sebagai framework ODM (Object Document Mapping) yang akan melakukan akses ke mongoDB. MongoDB adalah database yang berbasis NoSQL, silahkan install MongoDB berikut dokumentasi cara [instalasi MongoDB](http://docs.mongodb.org/master/tutorial/install-mongodb-on-ubuntu/){:target="_blank"}
 - morgan : digunakan sebagai log aplikasi
