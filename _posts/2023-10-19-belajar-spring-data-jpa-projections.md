@@ -12,7 +12,7 @@ share: true
 date: 2023-10-18T21:08:21+07:00
 ---
 
-## Apa Itu Projections ?
+# Apa Itu Projections ?
 
 >>Projections Pada Spring Data JPA adalah salah satu fitur yang ditawarkan oleh spring yang memudahkan developer untuk membuat permodelan dengan tipe tertentu atau biasa nya lebih disebut dengan permodelan dengan custom DTO.
 
@@ -36,7 +36,7 @@ public class Product {
 
 Dari class entity diatas, misal kita ingin menampilkan nama dan harga product saja. Sebenarnya kita bisa menggunakan class DTO secara manual cuma dibutuhkan proses mapping terlebih dahulu, sehingga dibutuhkan mapping dari class entity ke class DTO. Tapi di case tertentu seperti process sum terhadap suatu column misal jika kita menggunakan entity diatas, maka kita ingin mengetahui berapa total price. Hasil dari sum tersebut tidak mempunyai attribute pada class entity diatas sehingga dibutuhkan proses projections.
 
-### Setup Kebutuhan Belajar Projections
+## Setup Kebutuhan Belajar Projections
 
 Sebelum memulai case per case projections, kita perlu melakukan setup project untuk kebutuhan belajar projections. Silahkan akses web [spring initializer](https://start.spring.io/), lalu silahkan setup seperti berikut.
 
@@ -147,7 +147,7 @@ spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.hibernate.ddl-auto=create-drop
 ```
 
-### Interface Projections
+## Interface Projections
 
 Interface projections merupakan salah satu metode projections yang sangat mudah di implementasikan. Kita cukup membuat sebuah class interface, dimana di dalam class tersebut terdapat method dari masing - masing property yang hendak kita akses.
 
@@ -245,3 +245,57 @@ select
 from
     tb_product p1_0
 ```
+
+Pertanyaan selanjutnya adalah, apakah projections dengan interface ini dapat dipadukan dengan custom HQL/SQL ? jawaban nya adalah bisa. Silahkan tambahkan code berikut pada class `ProductRepository`
+
+```java
+package org.rizki.mufrizal.belajar.projections.repository;
+
+import org.rizki.mufrizal.belajar.projections.domain.Product;
+import org.rizki.mufrizal.belajar.projections.domain.hql.ProductHQL;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface ProductRepository extends JpaRepository<Product, UUID> {
+    List<ProductHQL> findAllBy();
+
+    @Query("select p.name as name, p.price as price from Product p")
+    List<ProductHQL> findAllCustomQuery();
+}
+```
+
+Kemudian tambahkan code berikut untuk `ProductController` agar kita dapat melakukan test
+
+```java
+package org.rizki.mufrizal.belajar.projections.controller;
+
+import org.rizki.mufrizal.belajar.projections.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ProductController {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @GetMapping(value = "/api/product/interface")
+    public ResponseEntity<?> productInterface() {
+        return new ResponseEntity<>(productRepository.findAllBy(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/api/product/interface/query")
+    public ResponseEntity<?> productInterfaceQuery() {
+        return new ResponseEntity<>(productRepository.findAllCustomQuery(), HttpStatus.OK);
+    }
+
+}
+```
+
+Kemudian silahkan akses url ke `http://localhost:8080/api/product/interface/query` dengan browser atau curl maka hasil nya akan sama seperti sebelum nya.
