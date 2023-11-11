@@ -9,20 +9,16 @@ image:
   background: abstract-2.png
 comments: true
 share: true
-date: 2022-10-02T20:15:28+07:00
+date: 2023-12-01T20:15:28+07:00
 ---
 
-Setalah sekian lama, akhirnya penulis mencoba menyempatkan kembali menulis sedikit artikel untuk bisa berbagi ke teman - teman. Pada artikel ini, penulis akan membahas mengenai salah satu broker MQTT yang cukup populer yaitu EMQX.
-
-## Apa itu MQTT ?
+# Apa itu MQTT ?
 
 >>MQTT (Message Queuing Telemetry Transport) merupakah protokol yang digunakan untuk IoT (internet of things). Protokol ini biasanya digunakan untuk komunikasi antar mesin ke mesin, misal nya seperti perangkat arduino, raspi dan lain - lain. Protokol MQTT ini dirancang khusus untuk komunikasi mesin ke mesin dan protokol ini juga berjalan diatas TCP/IP. Berbeda dengan protokol HTTP, protokol MQTT menggunakan mekanisme publish subscribe, dimana penggunaan nya sama seperti message queue seperti Active MQ, Apache Kafka, Rabbit MQ dan lain - lain.
 
-## Apa itu EMQX ?
+# Apa itu EMQX ?
 
-EMQX is an Open-source MQTT broker with a high-performance real-time message processing engine, powering event streaming for IoT devices at massive scale.
-
->>EMQX adalah salah satu broker MQTT yang bersifat opensource dan termasuk broker yang banyak menawarkan fitur untuk kebutuhan IoT. EMQX juga menyediakan versi enterprise jika kita membutuhkan fitur - fitur tambahan, misal Enterprise Data Integration (fitur integrasi dengan external database seperti oracle, postgresql dan lain - lain).
+>>EMQX adalah salah satu broker MQTT yang cukup populer bersifat opensource dan termasuk broker yang banyak menawarkan fitur untuk kebutuhan IoT. EMQX juga menyediakan versi enterprise jika kita membutuhkan fitur - fitur tambahan, misal Enterprise Data Integration (fitur integrasi dengan external database seperti oracle, postgresql dan lain - lain).
 
 ## Instalasi EMQX
 
@@ -31,7 +27,7 @@ Pada artikel ini, penulis akan menggunakan 2 buat vm yaitu :
 1. VM Node 1 : berfungsi sebagai node master, node master berfungsi untuk primary node nya.
 2. VM Node 2 : berfungsi sebagai node worker, dimana node worker akan melakukan join cluster ke node master.
 
-### Requirment Per Node
+## Requirment Per Node
 
 Adapun kebutuhan untuk per node adalah : 
 
@@ -97,11 +93,13 @@ Dan lakukan juga perintah tersebut pada node 2.
 
 Setelah melakukan instalasi EMQX, tahap selanjutnya adalah melakukan setup cluster untuk EMQX. Setup yang dilakukan ada 3 bagian yaitu tunning server, setup node 1 dan setup node 2.
 
-### Tunning Server dan TCP Network
+## Tunning Server dan TCP Network
 
 Ada beberapa yang harus dilakukan tunning baik disisi server maupun disisi TCP Network. Berikut adalah tahapan nya
 
-1. Tunning kernel linux, tunning ini wajib dilakukan dengan menggunakan user root. Silahkan jalankan perintah berikut
+### Tunning kernel linux
+
+tunning ini wajib dilakukan dengan menggunakan user root. Silahkan jalankan perintah berikut
 
 {% highlight bash %}
 sysctl -w fs.file-max=2097152
@@ -129,7 +127,7 @@ dan yang terakhir silahkan buka file `/etc/security/limits.conf` dan tambahkan c
 *      hard    nofile      1048576
 {% endhighlight %}
 
-2. Tunning TCP Network
+### Tunning TCP Network
 
 Untuk melakukan tunning disisi TCP Network, cukup jalankan perintah berikut
 
