@@ -149,3 +149,138 @@ sysctl -w net.netfilter.nf_conntrack_tcp_timeout_time_wait=30
 sysctl -w net.ipv4.tcp_max_tw_buckets=1048576
 sysctl -w net.ipv4.tcp_fin_timeout=15
 {% endhighlight %}
+
+### Tuning Erlang VM dan EMQX
+
+Untuk tuning erlang VM, silahkan buka file `emqx.conf` di folder `/apps/emqx/etc`, lalu ubah pada bagian node menjadi
+
+```shell
+node {
+  name = "emqx@192.168.56.3"
+  cookie = "emqxcookie"
+  data_dir = "data"
+  process_limit = 2097152
+  max_ports = 2097152
+}
+```
+
+Sedangkan untuk EMQX, masih di file yang sama, silahkan ubah pada bagian
+
+```shell
+listeners.tcp.default {
+  bind = "0.0.0.0:1883"
+  acceptors = 64
+  max_connections = 1024000
+}
+
+listeners.ssl.default {
+  bind = "0.0.0.0:8883"
+  acceptors = 64
+  max_connections = 1024000
+  ssl_options {
+    keyfile = "etc/certs/key.pem"
+    certfile = "etc/certs/cert.pem"
+    cacertfile = "etc/certs/cacert.pem"
+  }
+}
+
+listeners.ws.default {
+  bind = "0.0.0.0:8083"
+  acceptors = 64
+  max_connections = 1024000
+  websocket.mqtt_path = "/mqtt"
+}
+
+listeners.wss.default {
+  bind = "0.0.0.0:8084"
+  acceptors = 64
+  max_connections = 1024000
+  websocket.mqtt_path = "/mqtt"
+  ssl_options {
+    keyfile = "etc/certs/key.pem"
+    certfile = "etc/certs/cert.pem"
+    cacertfile = "etc/certs/cacert.pem"
+  }
+}
+
+```
+
+## Setup Node 1
+
+Untuk node 1, silahkan buka file `emqx.conf` di folder `/apps/emqx/etc`. Cari node.name, lalu ubah `emqx@127.0.0.1` menjadi `emqx@<<IP>>` dan juga node.cookie seperti berikut.
+
+```shell
+node {
+  name = "emqx@192.168.56.2"
+  cookie = "emqxcookie"
+  data_dir = "data"
+}
+```
+
+Setelah selesai, silahkan jalankan emqx dengan perintah
+
+```shell
+/apps/emqx/bin/emqx start
+```
+
+jika sukses maka akan muncul output seperti berikut.
+
+```shell
+EMQX 5.0.8 is started successfully!
+```
+
+## Setup Node 2
+
+Untuk node 2, sebenarnya sama seperti node 1 yaitu silahkan buka file emqx.conf di folder /apps/emqx/etc. Cari node.name, lalu ubah `emqx@127.0.0.1` menjadi `emqx@<<IP>>` dan juga node.cookie seperti berikut.
+
+```shell
+node {
+  name = "emqx@192.168.56.3"
+  cookie = "emqxcookie"
+  data_dir = "data"
+}
+```
+
+Setelah selesai, silahkan jalankan emqx dengan perintah
+
+```shell
+/apps/emqx/bin/emqx start
+```
+
+jika sukses maka akan muncul output seperti berikut.
+
+```shell
+EMQX 5.0.8 is started successfully!
+```
+
+lalu pada node 2 agar dapat join ke cluster, silahkan jalankan perintah berikut.
+
+```shell
+/apps/emqx/bin/emqx ctl cluster join emqx@192.168.56.2
+```
+
+jika berhasil maka akan muncul output seperti berikut.
+
+```shell
+Join the cluster successfully.
+Cluster status: #{running_nodes => ['emqx@192.168.56.2','emqx@192.168.56.3'],
+                  stopped_nodes => []}
+```
+
+atau jika kita ingik melakukan pengecekan statuc cluster dapat menggunakan perintah
+
+```shell
+/apps/emqx/bin/emqx ctl cluster status
+```
+
+Untuk mengetahui apakah emqx nya sudah berjalan atau tidak, silahkan buka `http://192.168.56.2:18083/` di browser. 18083 merupakan port dari dashboard emqx.
+
+![Screenshot from 2023-11-11 14-59-53.png](../images/Screenshot from 2023-11-11 14-59-53.png)
+
+Lalu silahkan login dengan menggunakan user `admin` password `public`. Setelah berhasil login, kita dapat melihat jumlah dari node emqx beserta cluster nya.
+
+![Screenshot from 2023-11-11 15-00-14.png](../images/Screenshot from 2023-11-11 15-00-14.png)
+
+![Screenshot from 2023-11-11 15-00-27.png](../images/Screenshot from 2023-11-11 15-00-27.png)
+
+Sekian artikel mengenai instalasi dan setup EMQX. Jika ada saran dan komentar silahkan isi dibawah dan terima kasih :).
